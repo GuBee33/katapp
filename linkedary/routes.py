@@ -14,7 +14,7 @@ def form():
     if form.validate_on_submit():
         result_html = LinkeDary(form.fbusername.data, form.fbpassword.data,form.fb_url.data,form.max_scrolldown.data,form.liusername.data, form.lipassword.data,form.first_row.data, form.last_row.data,form.text_whith_company.data, form.text_whithout_company.data,form.dryrun.data,form.min_wait.data, form.max_wait.data)
         print('Result:<br>{}'.format(result_html.replace("\n","<br>")))
-        flash(Markup('Result:<br>{}'.format(result_htmlreplace("\\r","").replace("\\n","<br>"))))
+        flash(Markup('Result:<br>{}'.format(result_html.replace("\\r","").replace("\\n","<br>"))))
         return redirect(url_for('index'))
     return render_template('form.html', title='Get More Connections', form=form)
 
