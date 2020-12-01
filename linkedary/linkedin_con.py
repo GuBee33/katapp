@@ -4,6 +4,23 @@ import pandas as pd
 from selenium import webdriver
 from random import randint
 from time import sleep
+from sys import platform
+import os
+from selenium.webdriver.common.action_chains import ActionChains 
+from pretty_html_table import build_table
+
+
+def move_and_click(driver,element):
+    action = ActionChains(driver) 
+    action.move_to_element(element).click().perform() 
+
+def get_driver_for_platform():
+    if platform == "linux" or platform == "linux2":
+        return(f"{os.path.abspath(os.getcwd())}/chromedriver_lin")
+    elif platform == "darwin":
+        return(f"{os.path.abspath(os.getcwd())}/chromedriver_mac")
+    elif platform == "win32":
+        return(f"{os.path.abspath(os.getcwd())}\\chromedriver_win.exe")
 
 def message(text_a,text_b,f_name,l_name,company):
     if company != "":
@@ -36,13 +53,16 @@ def prepare_data(fbusername,fbpw,fb_url,max_iteration,text_whith_company,text_wh
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications" : 2}
     chrome_options.add_experimental_option("prefs",prefs)
-    browser = webdriver.Chrome('./chromedriver',chrome_options=chrome_options)
+    browser = webdriver.Chrome(get_driver_for_platform(),chrome_options=chrome_options)
     browser.maximize_window()
     browser.get(fb_url)
-    browser.find_element_by_id("u_0_h").click()
+    try:
+        move_and_click(browser,browser.find_element_by_id("u_0_h"))
+    except:
+        print("No popup")
     browser.execute_script(f"document.getElementById('email').value='{fbusername}'")
     browser.execute_script(f"document.getElementById('pass').value='{fbpw}'")
-    browser.find_element_by_id("loginbutton").click()
+    move_and_click(browser,browser.find_element_by_id("loginbutton"))
     scroll_down(browser,1.5,max_iteration) 
     names = browser.find_elements_by_xpath('//*[@class = "oajrlxb2 g5ia77u1 qu0x051f esr5mh6w e9989ue4 r7d6kgcz rq0escxv nhd2j8a9 nc684nl6 p7hjln8o kvgmc6g5 cxmmr5t8 oygrvhab hcukyx3x jb3vyjys rz4wbd8a qt6c0cv9 a8nywdso i1ao9s8h esuyzwwr f1sip0of lzcic4wl oo9gr5id gpro0wi8 lrazzd5p"]')[1:]
     jobs = browser.find_elements_by_xpath('//*[@class = "d2edcug0 hpfvmrgz qv66sw1b c1et5uql rrkovp55 a8c37x1j keod5gw0 nxhoafnm aigsh9s9 d9wwppkn fe6kdd0r mau55g9w c8b282yb mdeji52x sq6gx45u a3bd9o3v knj5qynh pipptul6 hzawbc8m"]')
@@ -82,7 +102,6 @@ def prepare_data(fbusername,fbpw,fb_url,max_iteration,text_whith_company,text_wh
     df["message_wo_comp"]=df.apply(lambda x: message(text_whith_company,text_whithout_company,x.f_name,x.l_name,""), axis=1)
     df["message_wo_comp2"]=df.apply(lambda x: message(text_whith_company,text_whithout_company,x.l_name,x.f_name,""), axis=1)
     df["result"]=""
-    print(df)
     return browser,df
 
 def check_link(browser,df,index,row,col,dryrun,min_wait,max_wait):
@@ -140,13 +159,15 @@ def LinkeDary(fbusername,fbpw,fb_url,max_iteration,liusername,lipw,first_row,las
     browser.execute_script("window.open('','_blank');")
     browser.switch_to.window(browser.window_handles[-1])
     browser.get('https://www.linkedin.com/')
+    browser.switch_to.window(browser.current_window_handle)
     browser.execute_script(f"document.getElementById('session_key').value='{liusername}'")
     browser.execute_script(f"document.getElementById('session_password').value='{lipw}'")
-    browser.switch_to.window(browser.current_window_handle)
     login_button =browser.find_element_by_class_name("sign-in-form__submit-button")
-    login_button.click()
+    move_and_click(browser,login_button)
     for index,row in df[first_row:last_row].iterrows():
         check_link(browser,df,index,row,"link",dryrun,min_wait,max_wait)
-    result_html  = df[first_row:last_row][["name","result","message"]].to_html()
-    result_html += df[first_row:last_row]["result"].apply(lambda x: x if x=="Not Found" else x[0]).value_counts().to_frame().to_html()
+    result_html = "<h1>Summary:</h1>"
+    result_html += build_table(df[first_row:last_row]["result"].apply(lambda x: x if x=="Not Found" else x[0]).value_counts().to_frame().reset_index(),'orange_light')
+    result_html += "<h1>Details:</h1>"
+    result_html += build_table(df[first_row:last_row][["name","result","message"]],'orange_light')
     return result_html

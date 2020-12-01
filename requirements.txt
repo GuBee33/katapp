@@ -2,3 +2,4 @@ selenium
 pandas
 flask-wtf
 flask
+pretty_html_table
