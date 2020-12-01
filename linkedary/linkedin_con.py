@@ -36,7 +36,7 @@ def prepare_data(fbusername,fbpw,fb_url,max_iteration,text_whith_company,text_wh
     chrome_options = webdriver.ChromeOptions()
     prefs = {"profile.default_content_setting_values.notifications" : 2}
     chrome_options.add_experimental_option("prefs",prefs)
-    browser = webdriver.Chrome('chromedriver',chrome_options=chrome_options)
+    browser = webdriver.Chrome('./chromedriver',chrome_options=chrome_options)
     browser.maximize_window()
     browser.get(fb_url)
     browser.find_element_by_id("u_0_h").click()
