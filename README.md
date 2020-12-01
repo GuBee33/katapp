@@ -7,7 +7,6 @@ In your python environment execute the following:
 pip install -r requirements.txt
 ```
 You need a chrome browser to be installed.  
-In case of linux OS you need to extract the _chromedriver_ and replace the mac version with it.
 
 ## Start the app:
 ```
