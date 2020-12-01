@@ -1,0 +1,130 @@
+{% extends "base.html" %}  
+
+
+<body>
+{% block content %}
+    <h1>Generate new LikedIn connections</h1>
+   <div class="info"><p> Made by Tamás Guber </p></div>
+    <form action="" method="post" novalidate>
+            {{ form.hidden_tag() }}
+      <h1>Please fill out the following form</h1>
+      
+    <div class="contentform">
+
+      <div class="leftcontact">
+        <div class="form-group">
+            {{ form.fbusername.label }}<br>
+            {{ form.fbusername(size=32) }}<br>
+            {% for error in form.fbusername.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div> 
+      <div class="form-group">
+            {{ form.fbpassword.label }}<br>
+            {{ form.fbpassword(size=32) }}<br>
+            {% for error in form.fbpassword.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div> 
+      
+     <div class="form-group">
+            {{ form.fb_url.label }}<br>
+            {{ form.fb_url(size=150) }}<br>
+            {% for error in form.fb_url.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+    <div class="form-group">
+            {{ form.max_scrolldown.label }}<br>
+            {{ form.max_scrolldown(size=4) }}<br>
+            {% for error in form.max_scrolldown.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+
+
+      <div class="form-group">
+            {{ form.text_whith_company.label }}<br>
+            {{ form.text_whith_company(size=250) }}<br>
+            {% for error in form.text_whith_company.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+      
+      <div class="form-group">
+            {{ form.text_whithout_company.label }}<br>
+            {{ form.text_whithout_company(size=250) }}<br>
+            {% for error in form.text_whithout_company.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+
+
+  </div>
+
+  <div class="rightcontact">  
+            <div class="form-group">
+                {{ form.liusername.label }}<br>
+                {{ form.liusername(size=32) }}<br>
+                {% for error in form.liusername.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+          </div> 
+
+          <div class="form-group">
+                {{ form.lipassword.label }}<br>
+                {{ form.lipassword(size=32) }}<br>
+                {% for error in form.lipassword.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+          </div> 
+        
+          
+      <div class="form-group">
+            {{ form.first_row.label }}<br>
+            {{ form.first_row(size=4) }}<br>
+            {% for error in form.first_row.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+
+      <div class="form-group">
+            {{ form.last_row.label }}<br>
+            {{ form.last_row(size=4) }}<br>
+            {% for error in form.last_row.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+
+
+      <div class="form-group">
+            {{ form.min_wait.label }}<br>
+            {{ form.min_wait(size=4) }}<br>
+            {% for error in form.min_wait.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>  
+      <div class="form-group">
+            {{ form.max_wait.label }}<br>
+            {{ form.max_wait(size=4) }}<br>
+            {% for error in form.max_wait.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+      </div>
+      
+
+
+      <div class="form-group">
+          {{ form.dryrun() }} {{ form.dryrun.label }}
+        </div> 
+     
+  </div>
+  </div>
+{{ form.submit(class_="bouton-contact") }}
+<!-- <input type="submit" class="bouton-contact" value="Run"> -->
+  
+</form> 
+
+
+{% endblock %}  
+</body>

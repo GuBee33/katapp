@@ -1,0 +1,6 @@
+__pycache__
+.ipynb_checkpoints
+*.ipynb
+linkedary/__pycache__
+linkedary/.ipynb_checkpoints
+linkedary/templates/.ipynb_checkpoints
