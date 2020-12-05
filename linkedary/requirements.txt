@@ -1,0 +1,6 @@
+selenium
+pandas
+flask-wtf
+flask
+pretty_html_table
+mod_wsgi
