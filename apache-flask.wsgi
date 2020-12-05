@@ -1,5 +1,5 @@
-#! /usr/bin/python
+#! /usr/local/bin/python3.6
 
-from app import app as application
+from linkedary import app as application
 import sys
 sys.path.append("/var/www/apache-flask")
